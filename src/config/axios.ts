@@ -1,7 +1,7 @@
 import axios from "axios";
-
+// /account/9818306
 export const axiosInstance = axios.create({
-  baseURL: "https://api.themoviedb.org/3/account/9818306",
+  baseURL: "https://api.themoviedb.org/3",
   headers: {
     accept: "application/json",
     Authorization:
