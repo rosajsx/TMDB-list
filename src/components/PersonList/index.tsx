@@ -1,7 +1,8 @@
-import { Image } from "expo-image";
+import { useCallback } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import { Person } from "../services";
-import { imageUrl } from "../utils/constants";
+import { Person } from "../../services";
+import { imageUrl } from "../../utils/constants";
+import { PersonListItem } from "./PersonItem";
 
 interface PeopleListProps {
   data: Person[];
@@ -14,39 +15,41 @@ export const PeopleList = ({
   isLoading,
   onEndCallback,
 }: PeopleListProps) => {
+  const renderItem = useCallback(
+    ({ item }: any) => (
+      <PersonListItem
+        name={item.name}
+        uri={item?.profile_path ? `${imageUrl}${item.poster_path}` : null}
+      />
+    ),
+    []
+  );
+
   return (
     <View className="gap-2">
       <Text className="text-black text-2xl font-bold ">Trending People</Text>
 
       <FlatList
         data={data}
-        keyExtractor={(item) => item.id.toString()}
+        removeClippedSubviews
+        initialNumToRender={50}
+        maxToRenderPerBatch={50}
+        updateCellsBatchingPeriod={10}
+        keyExtractor={(item, index) =>
+          `${item.id.toString()}}${item.name}${index}`
+        }
         horizontal
+        getItemLayout={(data, index) => ({
+          length: 350,
+          offset: 30 * index,
+          index,
+        })}
         onEndReached={() => {
           if (!isLoading && data.length > 0) {
             onEndCallback?.();
           }
         }}
-        renderItem={({ item }) => {
-          const uri = item?.profile_path
-            ? `${imageUrl}${item.profile_path}`
-            : null;
-
-          return (
-            <View className="gap-4 max-h-[350px] max-w-[200px] h-[350px] w-[200px] rounded-xl">
-              <Image
-                source={uri}
-                placeholder={{ blurhash: "LEHV6nWB2yk8pyo0adR*.7kCMdnj" }}
-                contentFit="cover"
-                transition={1000}
-                style={{ width: 200, height: 300, borderRadius: 12 }}
-              />
-              <Text className="text-black font-bold text-center  ">
-                {item.name}
-              </Text>
-            </View>
-          );
-        }}
+        renderItem={renderItem}
         contentContainerClassName="gap-2"
         ListEmptyComponent={
           <View>

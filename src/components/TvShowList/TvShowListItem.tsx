@@ -1,19 +1,20 @@
+import { BLUR_HASH } from "@/src/utils/constants";
 import { Image } from "expo-image";
 import { memo } from "react";
 import { Text, View } from "react-native";
 
-interface MovieListItemProps {
+interface TvShowListItemProps {
   uri: string | null;
   title: string;
 }
 
-const MovieListItem = memo(
-  ({ title, uri }: MovieListItemProps) => {
+const TvShowListItem = memo(
+  ({ title, uri }: TvShowListItemProps) => {
     return (
       <View className="gap-4 max-h-[350px] max-w-[200px] h-[350px] w-[200px] rounded-xl">
         <Image
           source={uri}
-          placeholder={{ blurhash: "LEHV6nWB2yk8pyo0adR*.7kCMdnj" }}
+          placeholder={{ blurhash: BLUR_HASH }}
           contentFit="cover"
           transition={1000}
           style={{ width: 200, height: 300, borderRadius: 12 }}
@@ -29,6 +30,6 @@ const MovieListItem = memo(
   }
 );
 
-MovieListItem.displayName = "MovieListItem";
+TvShowListItem.displayName = "TvShowListItem";
 
-export { MovieListItem };
+export { TvShowListItem };

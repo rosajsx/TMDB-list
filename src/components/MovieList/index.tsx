@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import { Movie } from "../services";
-import { imageUrl } from "../utils/constants";
+import { Movie } from "../../services";
+import { imageUrl } from "../../utils/constants";
 import { MovieListItem } from "./MovieListItem";
 
 interface MovieListProps {
@@ -32,6 +32,7 @@ export const MovieList = ({
       <Text className="text-black text-2xl font-bold ">{title}</Text>
 
       <FlatList
+        removeClippedSubviews
         initialNumToRender={50}
         maxToRenderPerBatch={50}
         updateCellsBatchingPeriod={10}

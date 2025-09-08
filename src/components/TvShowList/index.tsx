@@ -1,7 +1,8 @@
-import { Image } from "expo-image";
+import { useCallback } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import { TVShow } from "../services";
-import { imageUrl } from "../utils/constants";
+import { TVShow } from "../../services";
+import { imageUrl } from "../../utils/constants";
+import { TvShowListItem } from "./TvShowListItem";
 
 interface TvShowListProps {
   data: TVShow[];
@@ -14,39 +15,39 @@ export const TvShowList = ({
   isLoading,
   onEndCallback,
 }: TvShowListProps) => {
+  const renderItem = useCallback(
+    ({ item }: any) => (
+      <TvShowListItem
+        uri={item?.poster_path ? `${imageUrl}${item.poster_path}` : null}
+        title={item.title}
+      />
+    ),
+    []
+  );
+
   return (
     <View className="gap-2">
       <Text className="text-black text-2xl font-bold ">Séries</Text>
 
       <FlatList
         data={data}
+        removeClippedSubviews
         keyExtractor={(item) => item.id.toString()}
+        initialNumToRender={50}
+        maxToRenderPerBatch={50}
+        updateCellsBatchingPeriod={10}
+        getItemLayout={(data, index) => ({
+          length: 350,
+          offset: 30 * index,
+          index,
+        })}
         horizontal
         onEndReached={() => {
           if (!isLoading && data.length > 0) {
             onEndCallback?.();
           }
         }}
-        renderItem={({ item }) => {
-          const uri = item?.poster_path
-            ? `${imageUrl}${item.poster_path}`
-            : null;
-
-          return (
-            <View className="gap-4 max-h-[350px] max-w-[200px] h-[350px] w-[200px] rounded-xl">
-              <Image
-                source={uri}
-                placeholder={{ blurhash: "LEHV6nWB2yk8pyo0adR*.7kCMdnj" }}
-                contentFit="cover"
-                transition={1000}
-                style={{ width: 200, height: 300, borderRadius: 12 }}
-              />
-              <Text className="text-black font-bold text-center  ">
-                {item.name}
-              </Text>
-            </View>
-          );
-        }}
+        renderItem={renderItem}
         contentContainerClassName="gap-2"
         ListEmptyComponent={
           <View>
