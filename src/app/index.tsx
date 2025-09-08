@@ -73,22 +73,6 @@ export default function Index() {
         getInitialUpcomingMoviesData(),
         getInitialTrendingPeopleData(),
       ]);
-      // const response = await Promise.all([
-      //   getMovies(),
-      //   getSeries(),
-      //   getPopularMovies(),
-      //   getTopRatedMovies(),
-      //   getUpcomingMovies(),
-      //   getTrendingMovies(),
-      //   getTrendingPeople(),
-      // ]);
-      // setMovies(response[0].data.results);
-      // setTvShows(response[1].data.results);
-      // setPopularMovies(response[2].data.results);
-      // setTopRatedMovies(response[3].data.results);
-      // setUpcommingMovies(response[4].data.results);
-      // setTrendingMovies(response[5].data.results);
-      // setTrendingPeople(response[6].data.results);
     } catch (error) {
       console.log("deu erro ei");
       console.log("error", error);
