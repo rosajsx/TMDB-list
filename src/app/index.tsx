@@ -95,8 +95,6 @@ export default function Index() {
     }, [])
   );
 
-  console.log("render");
-
   return (
     <SafeAreaView className="flex-1 ">
       <StatusBar barStyle="dark-content" />

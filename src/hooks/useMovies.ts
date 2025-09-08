@@ -33,7 +33,6 @@ export const useMovies = (type: MoviesType) => {
   const getInitialMovieData = async () => {
     try {
       setIsLoadingMovies(true);
-      console.log("here");
       const [page1, page2, page3, page4, page5] = await Promise.all([
         getData(),
         getData(2),
